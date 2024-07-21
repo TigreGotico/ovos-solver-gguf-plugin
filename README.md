@@ -114,3 +114,69 @@ purposes
 
 > The models listed are suggestions. The best model for your use case will depend on your specific requirements such as
 > language, task complexity, and performance needs.
+
+## Integrating with Persona Framework
+
+To integrate `GGUFSolver` with the OVOS Persona Framework and pass solver configurations, follow these examples.
+
+Each example demonstrates how to define a persona configuration file with specific settings for different models or configurations.
+
+To use any of these configurations, run the OVOS Persona Server with the desired configuration file:
+
+```bash
+$ ovos-persona-server --persona gguf_persona_remote.json
+```
+
+Replace `gguf_persona_remote.json` with the filename of the configuration you wish to use.
+
+### Example 1: Using a Remote GGUF Model
+
+This example shows how to configure the `GGUFSolver` to use a remote GGUF model with a specific persona.
+
+**`gguf_persona_remote.json`**:
+
+```json
+{
+  "name": "Notus",
+  "solvers": [
+    "ovos-solver-gguf-plugin"
+  ],
+  "ovos-solver-gguf-plugin": {
+    "model": "TheBloke/notus-7B-v1-GGUF",
+    "remote_filename": "*Q4_K_M.gguf",
+    "persona": "You are an advanced assistant providing detailed and accurate information.",
+    "verbose": true
+  }
+}
+```
+
+In this configuration:
+- `ovos-solver-gguf-plugin` is set to use a remote GGUF model `TheBloke/notus-7B-v1-GGUF` with the specified filename.
+- The persona is configured to provide detailed and accurate information.
+- `verbose` is set to `true` for detailed logging.
+
+### Example 2: Using a Local GGUF Model
+
+This example shows how to configure the `GGUFSolver` to use a local GGUF model.
+
+**`gguf_persona_local.json`**:
+
+```json
+{
+  "name": "LocalGGUFPersona",
+  "solvers": [
+    "ovos-solver-gguf-plugin"
+  ],
+  "ovos-solver-gguf-plugin": {
+    "model": "/path/to/local/model/gguf_model.gguf",
+    "persona": "You are a helpful assistant providing concise answers.",
+    "max_tokens": 256
+  }
+}
+```
+
+In this configuration:
+- `ovos-solver-gguf-plugin` is set to use a local GGUF model located at `/path/to/local/model/gguf_model.gguf`.
+- The persona is configured to provide concise answers.
+- `max_tokens` is set to `256` to limit the response length.
+
