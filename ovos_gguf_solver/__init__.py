@@ -20,6 +20,7 @@ class GGUFSolver(QuestionSolver):
             LOG.info(f"Loading GGUF model: {model}")
             self.model = llama_cpp.Llama(
                 model_path=model,
+                n_gpu_layers=self.config.get("n_gpu_layers", 0),
                 chat_format=self.config.get("chat_format"),
                 verbose=self.config.get("verbose", True))
         else:
@@ -28,9 +29,11 @@ class GGUFSolver(QuestionSolver):
             self.model = llama_cpp.Llama.from_pretrained(
                 repo_id=model,
                 filename=fname,
+                n_gpu_layers=self.config.get("n_gpu_layers", 0),
                 chat_format=self.config.get("chat_format"),
                 verbose=self.config.get("verbose", True)
             )
+        LOG.info("GGUF model loaded!")
 
     def stream_utterances(self, query: str,
                           context: Optional[dict] = None) -> Iterable[str]:
@@ -165,12 +168,12 @@ if __name__ == "__main__":
         "remote_filename": "*Q4_K_M.gguf"
     }
 
-
-    cfg = {
-        "model": "TheBloke/phi-2-orange-GGUF",
-        "remote_filename": "*Q4_K_M.gguf"
-    }
+    cfg = {"model": "RichardErkhov/GritLM_-_GritLM-7B-gguf",
+           "remote_filename": "*Q4_K_M.gguf",
+           "n_gpu_layers": -1
+           }
     s = GGUFSolver(cfg)
-    query = "tell me a joke about aliens"
-    for sent in s.stream_utterances(query):
-        print(sent)
+    for query in ["do aliens exist?", "when will the world end?", "how did life begin?"]:
+        print("\n", query)
+        for sent in s.stream_utterances(query):
+            print(sent)
