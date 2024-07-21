@@ -1,4 +1,4 @@
-# GGUFSolver README
+# GGUF Solver
 
 ## Overview
 
