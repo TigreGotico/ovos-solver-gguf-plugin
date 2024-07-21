@@ -26,12 +26,17 @@ cfg = {
 ```
 
 - `model`: The identifier for the model. It can be a local file path or a repository ID for a remote model.
+- `n_gpu_layers`: how many layer to offload to GPU, `-1` to offload all. default `0`
 - `remote_filename`: The specific filename to load from a remote repository.
 - `chat_format`: (Optional) Chat formatting settings.
 - `verbose`: (Optional) Set to `True` for detailed logging.
 - `persona`: (Optional) Persona for the system messages. Default
   is `"You are a helpful assistant who gives short factual answers"`.
 - `max_tokens`: (Optional) Maximum tokens for the response. Default is `512`.
+
+**NOTE**: for GPU support llama.cpp needs to be compiled with
+
+`CMAKE_ARGS="-DGGML_CUDA=on" FORCE_CMAKE=1 pip install llama-cpp-python --force-reinstall --no-cache-dir`
 
 ## Usage
 
