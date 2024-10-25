@@ -5,7 +5,7 @@ from setuptools import setup
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
-with open("README.md", "r") as fh:
+with open(f"{BASEDIR}/README.md", "r") as fh:
     long_desc = fh.read()
 
 
