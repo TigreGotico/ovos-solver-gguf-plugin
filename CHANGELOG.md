@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/HEAD)
+## [V0.0.0a3](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.0.0a3) (2024-10-25)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/a9c8d8d311a0cc1a014a40ed540b86a47b78eb87...HEAD)
+[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/a9c8d8d311a0cc1a014a40ed540b86a47b78eb87...V0.0.0a3)
 
 **Implemented enhancements:**
 
