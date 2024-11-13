@@ -1,5 +1,9 @@
 # Changelog
 
+## [V0.0.0a1](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.0.0a1) (2024-10-25)
+
+[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.0.0a0...V0.0.0a1)
+
 ## [0.0.0a0](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.0.0a0) (2024-10-25)
 
 [Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/V0.0.0a4...0.0.0a0)
