@@ -11,7 +11,6 @@ with open(f"{BASEDIR}/README.md", "r") as fh:
 
 def get_version():
     """ Find the version of the package"""
-    version = None
     version_file = os.path.join(BASEDIR, 'ovos_gguf_solver', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
@@ -46,7 +45,7 @@ def required(requirements_file):
 
 
 PLUGIN_ENTRY_POINTS = [
-    'ovos-solver-gguf-solver-plugin=ovos_gguf_solver:GGUFSolver'
+    'ovos-solver-gguf-plugin=ovos_gguf_solver:GGUFSolver'
 ]
 
 setup(

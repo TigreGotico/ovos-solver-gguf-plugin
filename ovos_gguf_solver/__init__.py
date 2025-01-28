@@ -184,13 +184,17 @@ if __name__ == "__main__":
         "n_gpu_layers": -1,
         "persona": "your task is to summarize text in a single sentence"
     }
+    cfg = {
+        "model": "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF",
+        "remote_filename": "*Q4_K_M.gguf"
+    }
     query = """The possibility of alien life in the solar system has been a topic of interest for scientists and astronomers for many years. The search for extraterrestrial life has been a major focus of space exploration, with numerous missions and discoveries made in recent years. While there is still no concrete evidence of life beyond Earth, the search for alien life continues to be a fascinating and exciting endeavor.
 One of the most promising areas for the search for alien life is the moons of Jupiter and Saturn. These moons, such as Europa and Enceladus, are believed to have subsurface oceans that could potentially harbor life. The presence of water, a key ingredient for life as we know it, has been detected on these moons, and there are also indications of other necessary elements such as carbon, nitrogen, and oxygen.
 Another area of interest for the search for alien life is the asteroid belt between Mars and Jupiter. This region is home to millions of asteroids, some of which may have the right conditions for life to exist. For example, some asteroids have been found to have water and organic compounds, which are essential for life.
 In addition to the moons and asteroids of the solar system, there are also other potential locations for the search for alien life. For example, there are exoplanets, or planets outside of our solar system, that have been discovered in recent years. Some of these exoplanets are believed to be in the habitable zone, which means they are located in the right distance from their star to potentially have liquid water on their surface.
 Despite the potential for alien life in the solar system, there are still many uncertainties and unknowns. The search for extraterrestrial life is a complex and multifaceted endeavor that requires a combination of scientific research, technological advancements, and exploration. While there is still no concrete evidence of life beyond Earth, the search for alien life continues to be a fascinating and exciting endeavor that holds the potential for groundbreaking discoveries in the future."""
     s = GGUFSolver(cfg)
-    summary = s.get_spoken_answer(f"Summarize the text:\n{query}")
+    summary = s.get_spoken_answer(f"Summarize the text:\n{query}"[:512])
     # The search for extraterrestrial life continues to be a fascinating and exciting endeavor that holds the potential for groundbreaking discoveries in the future.
     print(summary)
     print(len(query), len(summary), len(query)/len(summary)) # 13x reduction
