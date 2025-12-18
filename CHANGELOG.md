@@ -1,28 +1,16 @@
 # Changelog
 
-## [V0.0.0a1](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.0.0a1) (2024-10-25)
+## [0.1.1a1](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.1.1a1) (2025-12-18)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.0.0a0...V0.0.0a1)
-
-## [0.0.0a0](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.0.0a0) (2024-10-25)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/V0.0.0a4...0.0.0a0)
-
-## [V0.0.0a4](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.0.0a4) (2024-10-25)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/V0.0.0a3...V0.0.0a4)
-
-## [V0.0.0a3](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.0.0a3) (2024-10-25)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/a9c8d8d311a0cc1a014a40ed540b86a47b78eb87...V0.0.0a3)
-
-**Implemented enhancements:**
-
-- gpu support [\#1](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/1) ([JarbasAl](https://github.com/JarbasAl))
+[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/V0.1.0...0.1.1a1)
 
 **Merged pull requests:**
 
-- feat:semver [\#2](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/2) ([JarbasAl](https://github.com/JarbasAl))
+- Configure Renovate [\#3](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/3) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [V0.1.0](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.1.0) (2025-01-28)
+
+[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.1.0...V0.1.0)
 
 
 
