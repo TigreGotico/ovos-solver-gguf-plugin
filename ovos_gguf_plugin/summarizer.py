@@ -15,7 +15,16 @@ Focus on the most important information.
 """
     def __init__(self, config: Optional[Dict] = None,
                  gguf_engine: Optional[Llama] = None):
-        super().__init__(config=config)
+        """
+                 Initialize the GGUFSummarizer, apply default settings, and create the internal GGUF chat engine.
+                 
+                 If `config` does not include a `system_prompt`, a default summarization prompt is set. The internal GGUFChatEngine is constructed and assigned to `self.api`, and `self.prompt_template` is taken from `config["prompt_template"]` if present or falls back to the class `TEMPLATE`.
+                 
+                 Parameters:
+                     config (Optional[Dict]): Configuration options for the summarizer and underlying engine; may include `system_prompt` and `prompt_template`.
+                     gguf_engine (Optional[Llama]): Optional pre-initialized Llama engine to pass to the GGUFChatEngine.
+                 """
+                 super().__init__(config=config)
         if "system_prompt" not in self.config:
             self.config["system_prompt"] = "Your task is to summarize text in a couple paragraphs."
         self.api = GGUFChatEngine(config=self.config, gguf_engine=gguf_engine)
@@ -23,22 +32,33 @@ Focus on the most important information.
 
     @property
     def system_prompt(self):
+        """
+        Current system prompt for the chat engine.
+        
+        Returns:
+            str: The system prompt text.
+        """
         return self.api.system_prompt
 
     @system_prompt.setter
     def system_prompt(self, value):
+        """
+        Set the system prompt used by the internal GGUF chat engine.
+        
+        Parameters:
+            value (str): Prompt text providing high-level instructions for the model (e.g., summarization guidance). This replaces the current system prompt.
+        """
         self.api.system_prompt = value
 
     def summarize(self, document: str, lang: Optional[str] = None) -> str:
         """
-        Create a summary of the provided text.
-
-        Args:
-            document (str): The full text to be summarized.
-            lang (str, optional): The language of the document.
-
+        Create a concise summary (up to two short paragraphs) of the provided document using the configured prompt template.
+        
+        Parameters:
+        	lang (str, optional): Language code of the document to inform the summarization model when provided.
+        
         Returns:
-            str: The summarized text.
+        	str: The generated summary of the document.
         """
         prompt = self.prompt_template.format(content=document)
         return self.api.continue_chat([

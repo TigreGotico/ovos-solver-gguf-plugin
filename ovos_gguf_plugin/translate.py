@@ -12,7 +12,20 @@ from ovos_gguf_plugin.chat import GGUFChatEngine, Llama
 class GGUFTextTranslator(LanguageTranslator):
     def __init__(self, config: Optional[Dict[str, str]] = None,
                  gguf_engine: Optional[Llama] = None):
-        super().__init__(config)
+        """
+                 Initialize the GGUFTextTranslator and create its underlying GGUF chat engine.
+                 
+                 Sets sensible default configuration values when missing:
+                 - "system_prompt": "You are a professional translator. Your task is to translate text"
+                 - "model": "TheBloke/TowerInstruct-7B-v0.1-GGUF"
+                 - "remote_filename": "*Q4_K_M.gguf"
+                 - "n_gpu_layers": -1
+                 
+                 Parameters:
+                     config (Optional[Dict[str, str]]): Optional translator configuration; provided keys override defaults.
+                     gguf_engine (Optional[Llama]): Optional pre-initialized GGUF engine instance to pass to the chat engine.
+                 """
+                 super().__init__(config)
         if "system_prompt" not in self.config:
             self.config["system_prompt"] = "You are a professional translator. Your task is to translate text"
         if "model" not in self.config:
@@ -25,21 +38,33 @@ class GGUFTextTranslator(LanguageTranslator):
 
     @property
     def system_prompt(self):
+        """
+        Get the current system prompt used by the underlying GGUF chat engine.
+        
+        Returns:
+            str: The system prompt string configured on the internal chat engine.
+        """
         return self.api.system_prompt
 
     @system_prompt.setter
     def system_prompt(self, value):
+        """
+        Set the system-level prompt used by the underlying GGUF chat engine.
+        
+        Parameters:
+            value (str): The system prompt text to apply; may be multi-line and will guide the model's overall behavior.
+        """
         self.api.system_prompt = value
 
     def translate(self, text: str, target: Optional[str] = None, source: Optional[str] = None) -> str:
         """
-        Translate the given text from the source language to the target language.
-
-        Args:
-            text (str): The text to translate.
-            target (Optional[str]): The target language code. If None, the internal language is used.
-            source (Optional[str]): The source language code. If None, the default language is used.
-
+        Translate text into a target language, optionally from a specified source language.
+        
+        Parameters:
+            text (str): Text to be translated.
+            target (Optional[str]): Target language code or tag; if None, uses Configuration()["lang"].
+            source (Optional[str]): Source language code or tag; if provided, instructs the model to translate from that language.
+        
         Returns:
             str: The translated text.
         """
@@ -59,7 +84,18 @@ class GGUFTextTranslator(LanguageTranslator):
 class GGUFTextLangDetector(LanguageDetector):
     def __init__(self, config: Optional[Dict[str, str]] = None,
                  gguf_engine: Optional[Llama] = None):
-        super().__init__(config)
+        """
+                 Initialize the GGUFTextLangDetector, applying default configuration and creating the internal GGUF chat engine.
+                 
+                 Parameters:
+                     config (Optional[Dict[str, str]]): Optional configuration overrides; defaults are applied for missing keys:
+                         - 'system_prompt': instruction to respond with a BCP language code only
+                         - 'remote_filename': '*Q4_K_M.gguf'
+                         - 'n_gpu_layers': -1
+                     gguf_engine (Optional[Llama]): Optional underlying GGUF engine instance to pass to the chat engine.
+                 
+                 """
+                 super().__init__(config)
         if "system_prompt" not in self.config:
             self.config["system_prompt"] = "You are a language guru. Your task is to detect text languages and respond with BCP lang codes. You MUST answer ONLY with a language code"
         if "remote_filename" not in self.config:
@@ -70,19 +106,51 @@ class GGUFTextLangDetector(LanguageDetector):
 
     @property
     def system_prompt(self):
+        """
+        Get the current system prompt used by the underlying GGUF chat engine.
+        
+        Returns:
+            str: The system prompt string configured on the internal chat engine.
+        """
         return self.api.system_prompt
 
     @system_prompt.setter
     def system_prompt(self, value):
+        """
+        Set the system-level prompt used by the underlying GGUF chat engine.
+        
+        Parameters:
+            value (str): The system prompt text to apply; may be multi-line and will guide the model's overall behavior.
+        """
         self.api.system_prompt = value
 
     def detect(self, text):
+        """
+        Detect the language of the provided text and return its standardized BCP language tag.
+        
+        Parameters:
+            text (str): Text whose language should be detected.
+        
+        Returns:
+            str: Detected language tag in BCP format (e.g., "en", "es-ES").
+        """
         return standardize_lang_tag(self.api.continue_chat([
             AgentMessage(role=MessageRole.SYSTEM, content=self.system_prompt),
             AgentMessage(role=MessageRole.USER, content=f"Detect the language of this text: {text}")
         ]).content)
 
     def detect_probs(self, text):
+        """
+        Return a language-probability mapping for the given text.
+        
+        Detects the text's language and returns a dictionary mapping the detected BCP language tag to a probability of 1.0. If no language can be determined, returns an empty dictionary.
+        
+        Parameters:
+            text (str): Text to analyze for language detection.
+        
+        Returns:
+            dict: Mapping of the detected language tag to its probability (e.g., {'en-US': 1.0}), or {} if undetermined.
+        """
         l = self.detect(text)
         if l:
             return {l: 1.0}
@@ -91,12 +159,12 @@ class GGUFTextLangDetector(LanguageDetector):
     @classproperty
     def available_languages(cls) -> Set[str]:
         """
-        Return languages supported by this detector implementation in this state.
-        This should be a set of languages this detector is capable of recognizing.
-        This property should be overridden by the derived class to advertise
-        what languages that engine supports.
+        Return the language tags this detector can recognize in its current state.
+        
+        Override in subclasses to advertise supported languages; values should be canonical language tags (e.g., BCP-47).
+        
         Returns:
-            Set[str]: A set of language codes supported by this detector.
+            Set[str]: A set of supported language tags; empty if none are advertised.
         """
         return set()  # TODO
 
@@ -146,4 +214,3 @@ if __name__ == "__main__":
         "(how|what) is the weather [like] [tomorrow] in {location}",
         target="es-es"))
     # ¿Cómo es el tiempo [en] [mañana] en {location}
-
