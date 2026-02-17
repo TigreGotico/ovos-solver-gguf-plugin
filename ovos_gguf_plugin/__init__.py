@@ -1,0 +1,4 @@
+from ovos_gguf_plugin.chat import GGUFChatEngine
+from ovos_gguf_plugin.summarizer import GGUFSummarizer
+from ovos_gguf_plugin.dialog_transformers import GGUFDialogTransformer
+from ovos_gguf_plugin.translate import GGUFTextLangDetector, GGUFTextTranslator

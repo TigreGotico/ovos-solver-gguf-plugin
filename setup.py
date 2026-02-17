@@ -11,7 +11,7 @@ with open(f"{BASEDIR}/README.md", "r") as fh:
 
 def get_version():
     """ Find the version of the package"""
-    version_file = os.path.join(BASEDIR, 'ovos_gguf_solver', 'version.py')
+    version_file = os.path.join(BASEDIR, 'ovos_gguf_plugin', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
         for line in f:
@@ -44,22 +44,30 @@ def required(requirements_file):
                 if pkg.strip() and not pkg.startswith("#")]
 
 
-PLUGIN_ENTRY_POINTS = [
-    'ovos-solver-gguf-plugin=ovos_gguf_solver:GGUFSolver'
-]
+CHAT_PLUGIN_ENTRY_POINT = 'ovos-chat-gguf-plugin=ovos_gguf_plugin.chat:GGUFChatEngine'
+DIALOG_PLUGIN_ENTRY_POINT = 'ovos-dialog-transformer-gguf-plugin=ovos_gguf_plugin.dialog_transformers:GGUFDialogTransformer'
+SUMMARIZER_ENTRY_POINT = 'ovos-summarizer-gguf-plugin=ovos_gguf_plugin.summarizer:GGUFSummarizer'
+TRANSLATE_ENTRY_POINT = 'ovos-translate-gguf-plugin=ovos_gguf_plugin.translate:GGUFTextTranslator'
+LANG_DETECT_ENTRY_POINT = 'ovos-lang-detect-gguf-plugin=ovos_gguf_plugin.translate:GGUFTextLangDetector'
 
 setup(
-    name='ovos-solver-gguf-plugin',
+    name='ovos-gguf-plugin',
     version=get_version(),
-    description='A question solver plugin for OVOS',
-    url='https://github.com/TigreGotico/ovos-solver-gguf-plugin',
+    description='local LLM plugin for OpenVoiceOS persona framework',
+    url='https://github.com/TigreGotico/ovos-gguf-plugin',
     author='jarbasai',
     author_email='jarbasai@mailfence.com',
     license='MIT',
-    packages=['ovos_gguf_solver'],
+    packages=['ovos_gguf_plugin'],
     zip_safe=True,
     keywords='OVOS openvoiceos plugin utterance fallback query',
-    entry_points={'neon.plugin.solver': PLUGIN_ENTRY_POINTS},
+    entry_points={
+        "opm.transformer.dialog": DIALOG_PLUGIN_ENTRY_POINT,
+        "opm.agents.chat": CHAT_PLUGIN_ENTRY_POINT,
+        "opm.agents.summarizer": SUMMARIZER_ENTRY_POINT,
+        "opm.lang.translate": TRANSLATE_ENTRY_POINT,
+        "opm.lang.detect": LANG_DETECT_ENTRY_POINT,
+    },
     install_requires=required("requirements.txt"),
     long_description=long_desc,
     long_description_content_type='text/markdown'

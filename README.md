@@ -43,7 +43,7 @@ cfg = {
 ### Initializing the Solver
 
 ```python
-from ovos_gguf_solver import GGUFSolver
+from ovos_gguf_solver import GGUFChatEngine
 from ovos_utils.log import LOG
 
 LOG.set_level("DEBUG")
@@ -53,7 +53,7 @@ cfg = {
     "remote_filename": "*Q4_K_M.gguf"
 }
 
-solver = GGUFSolver(cfg)
+solver = GGUFChatEngine(cfg)
 ```
 
 ### Streaming Utterances

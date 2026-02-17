@@ -12,7 +12,7 @@ jobs:
     secrets: inherit
     with:
       branch: 'dev'
-      version_file: 'ovos_gguf_solver/version.py'
+      version_file: 'ovos_gguf_plugin/version.py'
       setup_py: 'setup.py'
       update_changelog: true
       publish_prerelease: true
