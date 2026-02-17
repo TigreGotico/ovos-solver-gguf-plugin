@@ -10,7 +10,14 @@ with open(f"{BASEDIR}/README.md", "r") as fh:
 
 
 def get_version():
-    """ Find the version of the package"""
+    """
+    Determine the package version from ovos_gguf_plugin/version.py.
+    
+    Parses VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD, and VERSION_ALPHA from the file and composes a version string; appends "a{alpha}" when alpha is greater than zero.
+    
+    Returns:
+        version (str): Version string in the form "MAJOR.MINOR.BUILD" or "MAJOR.MINOR.BUILDaALPHA".
+    """
     version_file = os.path.join(BASEDIR, 'ovos_gguf_plugin', 'version.py')
     major, minor, build, alpha = (None, None, None, None)
     with open(version_file) as f:
@@ -34,7 +41,17 @@ def get_version():
 
 
 def required(requirements_file):
-    """ Read requirements file and remove comments and empty lines. """
+    """
+    Read a requirements file, strip comments and empty lines, and optionally relax version pins.
+    
+    If the environment variable MYCROFT_LOOSE_REQUIREMENTS is set, version pins using '==' or '~=' are replaced with '>='.
+    
+    Parameters:
+        requirements_file (str): Path to the requirements file relative to BASEDIR.
+    
+    Returns:
+        list[str]: A list of requirement specification strings with comments and blank lines removed.
+    """
     with open(os.path.join(BASEDIR, requirements_file), 'r') as f:
         requirements = f.read().splitlines()
         if 'MYCROFT_LOOSE_REQUIREMENTS' in os.environ:

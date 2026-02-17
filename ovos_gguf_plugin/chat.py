@@ -10,7 +10,28 @@ from ovos_utils.log import LOG
 class GGUFChatEngine(ChatEngine):
     def __init__(self, config: Optional[Dict[str, Any]] = None,
                  gguf_engine: Optional[Llama] = None):
-        config = config or {}
+        """
+                 Initialize GGUFChatEngine and load or attach a GGUF Llama model.
+                 
+                 Parameters:
+                     config (Optional[Dict[str, Any]]): Engine configuration. Relevant keys:
+                         - "model": local path or hub repo identifier (required if `gguf_engine` is not provided).
+                         - "n_gpu_layers": number of GPU layers to offload (default 0).
+                         - "chat_format": chat formatting option passed to Llama.
+                         - "verbose": verbosity flag for model loading (default True).
+                         - "remote_filename": filename to use when loading from a hub (default "*Q4_K_M.gguf").
+                         - "system_prompt": optional system prompt to inject into conversations.
+                         - "allow_system_prompts": whether incoming system messages are allowed (default False).
+                     gguf_engine (Optional[Llama]): Pre-instantiated Llama model to use instead of loading from `config`.
+                 
+                 Side effects:
+                     - Assigns the Llama model to `self.model` (either the provided `gguf_engine` or a model loaded from `config`).
+                     - Sets `self.system_prompt` and `self.allow_system` from `config`.
+                 
+                 Raises:
+                     ValueError: If no "model" is present in `config` when `gguf_engine` is not provided.
+                 """
+                 config = config or {}
         super().__init__(config)
         if gguf_engine:
             self.model = gguf_engine
@@ -41,19 +62,15 @@ class GGUFChatEngine(ChatEngine):
 
     def validate_messages(self, messages: List[AgentMessage]) -> List[AgentMessage]:
         """
-        Prepares the message list by enforcing system prompt rules.
-
-        This method:
-        1. Strips existing system messages if `allow_system` is False.
-        2. Injects the configured `system_prompt` if it exists.
-        3. Merges the configured system prompt with an existing one if
-           `allow_system` is True.
-
-        Args:
-            messages (List[AgentMessage]): The raw input history of messages.
-
+        Enforce configured system-prompt rules and return a message list suitable for the model.
+        
+        Processes the provided message history by optionally removing existing system messages, injecting the configured `system_prompt`, and merging or replacing a leading system message depending on `allow_system`. If the resulting history is empty and a `system_prompt` is configured, returns a single SYSTEM AgentMessage containing that prompt.
+        
+        Parameters:
+            messages (List[AgentMessage]): The input chat history to validate and normalize.
+        
         Returns:
-            List[AgentMessage]: The processed list of messages ready for the API.
+            List[AgentMessage]: The processed list of AgentMessage objects ready for the model.
         """
         if not self.allow_system:
             messages = [m for m in messages if m.role != MessageRole.SYSTEM]
@@ -83,17 +100,17 @@ class GGUFChatEngine(ChatEngine):
                       lang: Optional[str] = None,
                       units: Optional[str] = None) -> AgentMessage:
         """
-        Generate a response message based on the provided chat history.
-
-        Args:
-            messages (List[AgentMessage]): Full list of messages in the conversation.
-            session_id (str): Identifier for the session.
-            lang (str, optional): BCP-47 language code.
-            units (str, optional): Preferred unit system (e.g., "metric", "imperial").
-
-        Returns:
-            AgentMessage: The generated response message from the assistant.
-        """
+                      Generate an assistant response for the given conversation history.
+                      
+                      Parameters:
+                          messages (List[AgentMessage]): Conversation messages to base the response on.
+                          session_id (str): Session identifier used for tracking context.
+                          lang (str, optional): BCP-47 language hint for the response.
+                          units (str, optional): Preferred measurement system for the response (e.g., "metric", "imperial").
+                      
+                      Returns:
+                          AgentMessage: An AgentMessage with role ASSISTANT containing the model-generated reply.
+                      """
         ans = self.model.create_chat_completion(
             messages=[
                 {"role": m.role, "content": m.content}
@@ -109,25 +126,19 @@ class GGUFChatEngine(ChatEngine):
                     lang: Optional[str] = None,
                     units: Optional[str] = None) -> Iterable[str]:
         """
-        Stream back response tokens as they are generated.
-
-        Returns partial sentences and is not suitable for direct TTS.
-
-        Once merged the output corresponds to the content of a AgentMessage with MessageRole.ASSISTANT
-
-        Note:
-            Default implementation yields the full response from continue_chat.
-            Subclasses should override this for real-time token streaming.
-
-        Args:
-            messages (List[AgentMessage]): Full list of messages.
-            session_id (str): Identifier for the session.
-            lang (str, optional): Language code.
-            units (str, optional): Unit system.
-
-        Returns:
-            Iterable[str]: A stream of tokens/partial text.
-        """
+                    Stream generated text tokens from the model as they arrive.
+                    
+                    Yields string fragments produced by the model's streaming chat completion; fragments may be partial sentences and are not guaranteed to be suitable for direct TTS. When concatenated in order, the fragments form the assistant's full response content.
+                    
+                    Parameters:
+                        messages (List[AgentMessage]): Conversation messages to validate and send to the model.
+                        session_id (str): Session identifier.
+                        lang (str, optional): Language code.
+                        units (str, optional): Unit system.
+                    
+                    Returns:
+                        Iterable[str]: An iterator yielding token/content deltas (string fragments) as they are produced by the model.
+                    """
         # With stream=True, the output is of type `Iterator[CompletionChunk]`.
         ans = self.model.create_chat_completion(
             messages=[
@@ -147,25 +158,19 @@ class GGUFChatEngine(ChatEngine):
                     lang: Optional[str] = None,
                     units: Optional[str] = None) -> Iterable[str]:
         """
-        Stream back response sentences as they are generated.
-
-        Returns full sentences only, suitable for direct TTS.
-
-        Once merged the output corresponds to the content of a AgentMessage with MessageRole.ASSISTANT
-
-        Note:
-            Default implementation yields the full response from continue_chat.
-            Subclasses should override this for real-time token streaming.
-
-        Args:
-            messages (List[AgentMessage]): Full list of messages.
-            session_id (str): Identifier for the session.
-            lang (str, optional): Language code.
-            units (str, optional): Unit system.
-
-        Returns:
-            Iterable[str]: A stream of tokens/partial text.
-        """
+                    Yield complete sentences from the assistant response as they are generated.
+                    
+                    Assembles and yields full sentences suitable for text-to-speech from the provided conversation messages.
+                    
+                    Parameters:
+                        messages (List[AgentMessage]): Conversation messages to send to the model.
+                        session_id (str): Session identifier (optional context for implementations).
+                        lang (str, optional): Language code hint for downstream consumers.
+                        units (str, optional): Unit system hint for downstream consumers.
+                    
+                    Returns:
+                        Iterable[str]: Complete sentence strings from the assistant response, yielded in generation order.
+                    """
         boundary_detector = SentenceBoundaryDetector()
         for tok in self.stream_tokens(messages):
             yield from boundary_detector.add_chunk(tok)
