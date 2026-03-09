@@ -170,7 +170,7 @@ class GGUFChatEngine(ChatEngine):
         for tok in self.stream_tokens(messages):
             yield from boundary_detector.add_chunk(tok)
         final_text = boundary_detector.finish()
-        if final_text:
+        if final_text and not self.config.get("drop_incomplete_sentences", True):
             yield final_text
 
 
