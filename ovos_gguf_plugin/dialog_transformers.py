@@ -3,6 +3,7 @@ from typing import Tuple, Optional
 from ovos_plugin_manager.templates.transformers import DialogTransformer
 from ovos_plugin_manager.templates.agents import AgentMessage, MessageRole
 from ovos_gguf_plugin.chat import GGUFChatEngine, Llama
+from ovos_gguf_plugin.prompts import load_prompt, default_lang
 
 
 class GGUFDialogTransformer(DialogTransformer):
@@ -15,7 +16,7 @@ class GGUFDialogTransformer(DialogTransformer):
         """
         super().__init__(name, priority, config)
         if "system_prompt" not in self.config:
-            self.config["system_prompt"] = "Your task is to rewrite text as if it was spoken by a different character"
+            self.config["system_prompt"] = load_prompt("dialog_transform_system", default_lang())
         self.api = GGUFChatEngine(config=self.config, gguf_engine=gguf_engine)
 
     @property
