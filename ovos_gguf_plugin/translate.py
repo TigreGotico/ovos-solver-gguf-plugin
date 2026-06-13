@@ -5,8 +5,9 @@ from ovos_config import Configuration
 from ovos_plugin_manager.templates.agents import AgentMessage, MessageRole
 from ovos_plugin_manager.templates.language import LanguageTranslator, LanguageDetector
 from ovos_utils import classproperty
-from ovos_utils.lang import standardize_lang_tag
+from ovos_spec_tools import standardize_lang
 from ovos_gguf_plugin.chat import GGUFChatEngine, Llama
+from ovos_gguf_plugin.prompts import load_prompt, default_lang
 
 
 class GGUFTextTranslator(LanguageTranslator):
@@ -14,7 +15,7 @@ class GGUFTextTranslator(LanguageTranslator):
                  gguf_engine: Optional[Llama] = None):
         super().__init__(config)
         if "system_prompt" not in self.config:
-            self.config["system_prompt"] = "You are a professional translator. Your task is to translate text"
+            self.config["system_prompt"] = load_prompt("translate_system", default_lang())
         if "model" not in self.config:
             self.config["model"] = "TheBloke/TowerInstruct-7B-v0.1-GGUF"
         if "remote_filename" not in self.config:
@@ -45,11 +46,14 @@ class GGUFTextTranslator(LanguageTranslator):
         """
         target = target or Configuration()["lang"]
         tgt = Language.get(target).display_name('en')
+        lang = default_lang()
         if source:
             src = Language.get(source).display_name('en')
-            prompt = f"""Translate the following text from {src} into {tgt}.\n{src}: {text}\n{tgt}: """
+            prompt = load_prompt("translate_with_source", lang,
+                                 {"source": src, "target": tgt, "text": text})
         else:
-            prompt = f"""Translate the following text into {tgt}.\nOriginal: {text}\nTranslated to {tgt}: """
+            prompt = load_prompt("translate_no_source", lang,
+                                 {"target": tgt, "text": text})
         return self.api.continue_chat([
             AgentMessage(role=MessageRole.SYSTEM, content=self.system_prompt),
             AgentMessage(role=MessageRole.USER, content=prompt)
@@ -61,7 +65,7 @@ class GGUFTextLangDetector(LanguageDetector):
                  gguf_engine: Optional[Llama] = None):
         super().__init__(config)
         if "system_prompt" not in self.config:
-            self.config["system_prompt"] = "You are a language guru. Your task is to detect text languages and respond with BCP lang codes. You MUST answer ONLY with a language code"
+            self.config["system_prompt"] = load_prompt("detect_system", default_lang())
         if "remote_filename" not in self.config:
             self.config["remote_filename"] = "*Q4_K_M.gguf"
         if "n_gpu_layers" not in self.config:
@@ -77,9 +81,9 @@ class GGUFTextLangDetector(LanguageDetector):
         self.api.system_prompt = value
 
     def detect(self, text):
-        return standardize_lang_tag(self.api.continue_chat([
+        return standardize_lang(self.api.continue_chat([
             AgentMessage(role=MessageRole.SYSTEM, content=self.system_prompt),
-            AgentMessage(role=MessageRole.USER, content=f"Detect the language of this text: {text}")
+            AgentMessage(role=MessageRole.USER, content=load_prompt("detect_user", default_lang(), {"text": text}))
         ]).content)
 
     def detect_probs(self, text):

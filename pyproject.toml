@@ -20,6 +20,7 @@ keywords = [
 ]
 dependencies = [
     "ovos-plugin-manager>=2.2.3a1,<3.0.0",
+    "ovos-spec-tools>=0.8.0a2",
     "huggingface-hub",
     "llama-cpp-python",
     "numpy",
@@ -53,6 +54,9 @@ ovos-gguf-embeddings-plugin = "ovos_gguf_plugin.embeddings:GGUFEmbeddings"
 
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.package-data]
+ovos_gguf_plugin = ["locale/*/*.prompt"]
 
 [tool.setuptools.packages.find]
 include = ["ovos_gguf_plugin*"]
