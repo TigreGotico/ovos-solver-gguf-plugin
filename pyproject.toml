@@ -28,7 +28,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = ["pytest", "numpy"]
+test = [
+    "pytest",
+    "numpy",
+    "ovoscope",
+    "ovos-persona",
+    "ovos-persona-pipeline-plugin",
+    "ovos-solver-failure-plugin",
+]
 
 [project.urls]
 Homepage = "https://github.com/OpenVoiceOS/ovos-gguf-plugin"
