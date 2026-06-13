@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0a2](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a2) (2026-06-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a1...1.2.0a2)
+
+**Merged pull requests:**
+
+- chore: remove agent-audit scratch files [\#19](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/19) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a1) (2026-06-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.1.0a1...1.2.0a1)
