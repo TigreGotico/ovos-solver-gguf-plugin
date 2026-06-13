@@ -22,8 +22,12 @@ dependencies = [
     "ovos-plugin-manager>=2.2.3a1,<3.0.0",
     "huggingface-hub",
     "llama-cpp-python",
+    "numpy",
     "sentence_stream",
 ]
+
+[project.optional-dependencies]
+test = ["pytest", "numpy"]
 
 [project.urls]
 Homepage = "https://github.com/TigreGotico/ovos-gguf-plugin"
@@ -43,6 +47,9 @@ ovos-translate-gguf-plugin = "ovos_gguf_plugin.translate:GGUFTextTranslator"
 
 [project.entry-points."opm.lang.detect"]
 ovos-lang-detect-gguf-plugin = "ovos_gguf_plugin.translate:GGUFTextLangDetector"
+
+[project.entry-points."opm.embeddings.text"]
+ovos-gguf-embeddings-plugin = "ovos_gguf_plugin.embeddings:GGUFEmbeddings"
 
 [tool.setuptools]
 include-package-data = true
