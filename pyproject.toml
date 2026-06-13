@@ -33,7 +33,6 @@ test = [
     "numpy",
     "ovoscope",
     "ovos-persona",
-    "ovos-persona-pipeline-plugin",
     "ovos-solver-failure-plugin",
 ]
 
