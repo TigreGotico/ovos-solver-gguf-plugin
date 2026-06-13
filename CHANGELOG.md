@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.1.0a1) (2026-06-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.0.0a1...1.1.0a1)
+
+**Merged pull requests:**
+
+- feat: localize wrapper prompts via ovos-spec-tools \(.prompt\) + docs/examples [\#15](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/15) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.0.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.0.0a1) (2026-06-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/0.1.1a3...1.0.0a1)
