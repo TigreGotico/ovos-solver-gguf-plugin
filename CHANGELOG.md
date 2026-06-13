@@ -1,12 +1,20 @@
 # Changelog
 
+## [1.2.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a1) (2026-06-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.1.0a1...1.2.0a1)
+
+**Merged pull requests:**
+
+- feat: productionize unified GGUF plugin \(new README, docs, real-model e2e\) [\#17](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/17) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.1.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.1.0a1) (2026-06-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.0.0a1...1.1.0a1)
 
 **Merged pull requests:**
 
-- feat: localize wrapper prompts via ovos-spec-tools \(.prompt\) + docs/examples [\#15](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/15) ([JarbasAl](https://github.com/JarbasAl))
+- feat: productionize unified GGUF plugin \(localized prompts, docs, examples, real-model e2e\) [\#15](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/15) ([JarbasAl](https://github.com/JarbasAl))
 
 ## [1.0.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.0.0a1) (2026-06-13)
 
