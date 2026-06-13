@@ -1,33 +1,41 @@
 # Changelog
 
-## [0.1.1a3](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.1.1a3) (2025-12-19)
+## [1.0.0a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.0.0a1) (2026-06-13)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.1.1a2...0.1.1a3)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/0.1.1a3...1.0.0a1)
 
-**Merged pull requests:**
+**Breaking changes:**
 
-- Update actions/checkout action to v6 [\#6](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/6) ([renovate[bot]](https://github.com/apps/renovate))
-- Update dependency python to 3.14 [\#5](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/5) ([renovate[bot]](https://github.com/apps/renovate))
+- refactor!: opm agents plugins [\#10](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/10) ([JarbasAl](https://github.com/JarbasAl))
 
-## [0.1.1a2](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.1.1a2) (2025-12-19)
+## [0.1.1a3](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/0.1.1a3) (2025-12-19)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.1.1a1...0.1.1a2)
-
-**Merged pull requests:**
-
-- Update actions/setup-python action to v6 [\#8](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/8) ([renovate[bot]](https://github.com/apps/renovate))
-
-## [0.1.1a1](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/0.1.1a1) (2025-12-18)
-
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/V0.1.0...0.1.1a1)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/0.1.1a2...0.1.1a3)
 
 **Merged pull requests:**
 
-- Configure Renovate [\#3](https://github.com/TigreGotico/ovos-solver-gguf-plugin/pull/3) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v6 [\#6](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/6) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency python to 3.14 [\#5](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/5) ([renovate[bot]](https://github.com/apps/renovate))
 
-## [V0.1.0](https://github.com/TigreGotico/ovos-solver-gguf-plugin/tree/V0.1.0) (2025-01-28)
+## [0.1.1a2](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/0.1.1a2) (2025-12-19)
 
-[Full Changelog](https://github.com/TigreGotico/ovos-solver-gguf-plugin/compare/0.1.0...V0.1.0)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/0.1.1a1...0.1.1a2)
+
+**Merged pull requests:**
+
+- Update actions/setup-python action to v6 [\#8](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/8) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [0.1.1a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/0.1.1a1) (2025-12-18)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/V0.1.0...0.1.1a1)
+
+**Merged pull requests:**
+
+- Configure Renovate [\#3](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/3) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [V0.1.0](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/V0.1.0) (2025-01-28)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/0.1.0...V0.1.0)
 
 
 
