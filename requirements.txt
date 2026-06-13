@@ -1,3 +1,4 @@
-ovos-plugin-manager
+ovos-plugin-manager>=2.2.3a1,<3.0.0
 huggingface-hub
 llama-cpp-python
+sentence_stream

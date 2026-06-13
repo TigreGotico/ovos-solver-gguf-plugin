@@ -1,10 +1,20 @@
-# GGUF Solver
+# ovos-gguf-plugin
 
 ## Overview
 
-`GGUFSolver` is a question-answering module that utilizes GGUF models to provide responses to user queries. This solver
-streams utterances for real-time interaction and is built on the `ovos_plugin_manager.templates.solvers.QuestionSolver`
-framework.
+A single plugin packaging every GGUF-backed wrapper for OpenVoiceOS. All wrappers run quantized GGUF models through
+`llama-cpp-python`, loading from a local `.gguf` file or straight from the Hugging Face Hub (`repo_id` + `remote_filename`).
+
+It registers the following OVOS Plugin Manager entry points:
+
+| Entry-point group | Plugin name | Class | Role |
+|---|---|---|---|
+| `opm.agents.chat` | `ovos-chat-gguf-plugin` | `GGUFChatEngine` | conversational chat / question answering |
+| `opm.agents.summarizer` | `ovos-summarizer-gguf-plugin` | `GGUFSummarizer` | text summarization |
+| `opm.transformer.dialog` | `ovos-dialog-transformer-gguf-plugin` | `GGUFDialogTransformer` | dialog rewriting |
+| `opm.lang.translate` | `ovos-translate-gguf-plugin` | `GGUFTextTranslator` | machine translation |
+| `opm.lang.detect` | `ovos-lang-detect-gguf-plugin` | `GGUFTextLangDetector` | language detection |
+| `opm.embeddings.text` | `ovos-gguf-embeddings-plugin` | `GGUFEmbeddings` | text embeddings |
 
 ## Features
 
@@ -43,7 +53,7 @@ cfg = {
 ### Initializing the Solver
 
 ```python
-from ovos_gguf_solver import GGUFSolver
+from ovos_gguf_plugin.chat import GGUFChatEngine
 from ovos_utils.log import LOG
 
 LOG.set_level("DEBUG")
@@ -53,7 +63,7 @@ cfg = {
     "remote_filename": "*Q4_K_M.gguf"
 }
 
-solver = GGUFSolver(cfg)
+solver = GGUFChatEngine(cfg)
 ```
 
 ### Streaming Utterances
@@ -189,7 +199,36 @@ purposes
 
 
 
+## Text Embeddings
+
+`GGUFEmbeddings` turns text into dense vectors for semantic search, clustering and retrieval. It pairs with any OVOS
+`EmbeddingsDB` vector store (e.g. `ovos-chromadb-embeddings-plugin`, `ovos-qdrant-embeddings-plugin`).
+
+`model` accepts a friendly name from `GGUFEmbeddings.DEFAULT_MODELS` (e.g. `labse`, `all-MiniLM-L6-v2`,
+`nomic-embed-text-v1.5`, `bge-large-en-v1.5`), a bare Hugging Face repo id (with `remote_filename`), or a local
+`.gguf` path. Default is `labse`.
+
+```python
+from ovos_gguf_plugin.embeddings import GGUFEmbeddings
+
+embedder = GGUFEmbeddings({"model": "all-MiniLM-L6-v2"})
+vector = embedder.get_embeddings("hello world")
+```
+
+As an OVOS text-embeddings plugin it is selected by name (`ovos-gguf-embeddings-plugin`), so it is a drop-in for
+anything that previously used the standalone embeddings plugin — install `ovos-gguf-plugin` and the name resolves.
+
 ## Credits
+
+Developed by [TigreGótico](https://tigregotico.pt) for [OpenVoiceOS](https://openvoiceos.org).
+
+[![NGI0 Commons Fund](./ngi.png)](https://nlnet.nl/project/OpenVoiceOS)
+
+This project was funded through the [NGI0 Commons Fund](https://nlnet.nl/commonsfund),
+a fund established by [NLnet](https://nlnet.nl) with financial support from the
+European Commission's [Next Generation Internet](https://ngi.eu) programme, under
+the aegis of [DG Communications Networks, Content and Technology](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/communications-networks-content-and-technology_en)
+under grant agreement No [101135429](https://cordis.europa.eu/project/id/101135429).
 
 ![image](https://github.com/user-attachments/assets/809588a2-32a2-406c-98c0-f88bf7753cb4)
 
