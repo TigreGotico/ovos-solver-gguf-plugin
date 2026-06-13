@@ -30,8 +30,8 @@ dependencies = [
 test = ["pytest", "numpy"]
 
 [project.urls]
-Homepage = "https://github.com/TigreGotico/ovos-gguf-plugin"
-Repository = "https://github.com/TigreGotico/ovos-gguf-plugin"
+Homepage = "https://github.com/OpenVoiceOS/ovos-gguf-plugin"
+Repository = "https://github.com/OpenVoiceOS/ovos-gguf-plugin"
 
 [project.entry-points."opm.transformer.dialog"]
 ovos-dialog-transformer-gguf-plugin = "ovos_gguf_plugin.dialog_transformers:GGUFDialogTransformer"
