@@ -1,5 +1,10 @@
 # GGUF Solver
 
+> **Deprecated.** This plugin is superseded by **[`ovos-gguf-plugin`](https://github.com/TigreGotico/ovos-gguf-plugin)**,
+> which bundles every GGUF wrapper (chat, summarizer, dialog transformer, translate, lang detect, embeddings) in one
+> package. Its `opm.agents.chat` engine (`GGUFChatEngine`) replaces this `QuestionSolver`. Install `ovos-gguf-plugin`
+> instead.
+
 ## Overview
 
 `GGUFSolver` is a question-answering module that utilizes GGUF models to provide responses to user queries. This solver
