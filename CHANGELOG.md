@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0a3](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a3) (2026-06-14)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a2...1.2.0a3)
+
+**Merged pull requests:**
+
+- test: full-pipeline persona e2e \(real GGUF through ovoscope\) [\#21](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/21) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.0a2](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a2) (2026-06-13)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a1...1.2.0a2)
