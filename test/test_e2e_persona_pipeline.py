@@ -154,15 +154,21 @@ class TestGGUFPersonaMemoryRecorded:
 
         persona = svc.personas.get(PERSONA_NAME)
         assert persona is not None, f"Persona '{PERSONA_NAME}' not loaded"
-        assert persona.memory is not None, "Persona must have short-term memory enabled"
 
         _drive(mc, sess, "hello, who are you?", timeout=90)
 
-        history = persona.memory.get_history(sess.session_id)
+        # Short-term memory is kept on the live PersonaService, keyed by
+        # session_id: a list of (role, utterance) tuples where role is
+        # "user" or "ai".
+        history = svc.sessions.get(sess.session_id)
         assert history, (
             f"Memory empty after pipeline turn for session {sess.session_id}"
         )
-        contents = [m.content for m in history]
+        roles = [role for role, _ in history]
+        assert "user" in roles, (
+            f"No USER turn recorded in memory. History: {history}"
+        )
+        contents = [utt for _, utt in history]
         assert any("hello" in c.lower() for c in contents), (
             f"User utterance not found in memory. History: {contents}"
         )
