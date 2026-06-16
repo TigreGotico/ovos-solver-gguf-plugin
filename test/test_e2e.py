@@ -17,6 +17,8 @@ from ovos_gguf_plugin.chat import GGUFChatEngine
 from ovos_gguf_plugin.embeddings import GGUFEmbeddings
 from ovos_plugin_manager.templates.agents import AgentMessage, MessageRole
 
+from conftest import hf_retry
+
 
 # ---------------------------------------------------------------------------
 # Chat engine
@@ -24,12 +26,13 @@ from ovos_plugin_manager.templates.agents import AgentMessage, MessageRole
 
 @pytest.fixture(scope="module")
 def chat_engine():
-    return GGUFChatEngine({
+    # The engine downloads the GGUF from the hub on construction; retry on 429.
+    return hf_retry(lambda: GGUFChatEngine({
         "model": "afrideva/Smol-Llama-101M-Chat-v1-GGUF",
         "remote_filename": "*q2_k.gguf",
         "max_tokens": 24,
         "verbose": False,
-    })
+    }))
 
 
 def test_chat_continue_returns_nonempty_string(chat_engine):
@@ -57,7 +60,9 @@ def test_chat_stream_sentences_yields_at_least_one_chunk(chat_engine):
 
 @pytest.fixture(scope="module")
 def embedder():
-    return GGUFEmbeddings({"model": "all-MiniLM-L6-v2"})
+    # The hub download happens during construction; a transient 429 is
+    # re-raised by the plugin, so retry it under the backoff guard.
+    return hf_retry(lambda: GGUFEmbeddings({"model": "all-MiniLM-L6-v2"}))
 
 
 def test_embeddings_returns_numpy_vector(embedder):

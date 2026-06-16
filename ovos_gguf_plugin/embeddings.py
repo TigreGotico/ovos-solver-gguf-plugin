@@ -8,6 +8,22 @@ from ovos_utils.log import LOG
 from llama_cpp import Llama
 
 
+def _is_hub_rate_limit(exc: BaseException) -> bool:
+    """True for a transient HuggingFace hub rate-limit (HTTP 429) error.
+
+    Detected without importing ``huggingface_hub`` directly: the hub raises
+    ``HfHubHTTPError`` which carries a ``response`` with ``status_code``; we
+    fall back to message sniffing for wrappers that drop the response.
+    """
+    resp = getattr(exc, "response", None)
+    if resp is not None and getattr(resp, "status_code", None) == 429:
+        return True
+    if getattr(exc, "status_code", None) == 429:
+        return True
+    text = str(exc)
+    return "429" in text and "Too Many Requests" in text
+
+
 class GGUFEmbeddings(TextEmbedder):
     """Text embeddings via GGUF models executed through llama.cpp.
 
@@ -86,6 +102,16 @@ class GGUFEmbeddings(TextEmbedder):
                 self.model = Llama.from_pretrained(repo_id=repo_id, filename=filename, **llama_args)
             LOG.info("GGUF embeddings model loaded!")
         except Exception as e:
+            # Transient HuggingFace rate-limiting (HTTP 429) is not a real
+            # failure -- surface it so callers can retry with backoff instead
+            # of seeing a permanently unloaded model.
+            if _is_hub_rate_limit(e):
+                LOG.warning(
+                    f"HuggingFace rate-limited the download of '{model_id}' (429); "
+                    f"re-raising so the caller can retry"
+                )
+                self.model = None
+                raise
             LOG.error(f"Failed to load GGUF embeddings model '{model_id}': {e}")
             self.model = None
 
