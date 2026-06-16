@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0a4](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a4) (2026-06-16)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a3...1.2.0a4)
+
+**Merged pull requests:**
+
+- chore: add missing shared CI workflows [\#23](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/23) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.0a3](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a3) (2026-06-14)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a2...1.2.0a3)
