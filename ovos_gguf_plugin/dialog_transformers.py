@@ -7,7 +7,7 @@ from ovos_gguf_plugin.prompts import load_prompt, default_lang
 
 
 class GGUFDialogTransformer(DialogTransformer):
-    def __init__(self, name="ovos-dialog-transformer-openai-plugin", priority=10, config=None,
+    def __init__(self, name="ovos-dialog-transformer-gguf-plugin", priority=10, config=None,
                  gguf_engine: Optional[Llama] = None):
         """
         Initializes the OpenAIDialogTransformer with a name, priority, and configuration.
