@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.1a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.1a1) (2026-06-20)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a4...1.2.1a1)
+
+**Closed issues:**
+
+- GGUFDialogTransformer default name is the OpenAI plugin's name \(copy-paste\) [\#25](https://github.com/OpenVoiceOS/ovos-gguf-plugin/issues/25)
+
+**Merged pull requests:**
+
+- fix: default GGUFDialogTransformer name to its own plugin id [\#26](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/26) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.0a4](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.0a4) (2026-06-16)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a3...1.2.0a4)
