@@ -23,6 +23,7 @@ pytest.importorskip("ovos_persona")
 
 from ovos_bus_client.message import Message
 from ovos_bus_client.session import Session, SessionManager
+from ovos_plugin_manager.templates.agents import MessageRole
 
 from ovoscope import (
     PERSONA_PIPELINE,
@@ -126,11 +127,17 @@ class TestGGUFPersonaSpeaksThroughPipeline:
 
         messages = _drive(mc, sess, "hello, who are you?", timeout=90)
 
+        # OVOS-INTENT bus-namespace migration: the spec name is
+        # ``ovos.utterance.speak``; the legacy ``speak`` topic may or may not
+        # be dual-sent depending on stack version, so accept either without
+        # counting occurrences.
         msg_types = [m.msg_type for m in messages]
-        speak_msgs = [m for m in messages if m.msg_type == "speak"]
+        speak_msgs = [
+            m for m in messages if m.msg_type in ("ovos.utterance.speak", "speak")
+        ]
 
         assert speak_msgs, (
-            f"Expected at least one 'speak' message; got msg_types: {msg_types}"
+            f"Expected at least one speak message; got msg_types: {msg_types}"
         )
         spoken = speak_msgs[0].data.get("utterance", "")
         assert spoken.strip(), (
@@ -157,18 +164,19 @@ class TestGGUFPersonaMemoryRecorded:
 
         _drive(mc, sess, "hello, who are you?", timeout=90)
 
-        # Short-term memory is kept on the live PersonaService, keyed by
-        # session_id: a list of (role, utterance) tuples where role is
-        # "user" or "ai".
-        history = svc.sessions.get(sess.session_id)
+        # Short-term memory is kept on the persona's AgentContextManager
+        # (``persona.memory``), keyed by session_id: a list of AgentMessage
+        # with a MessageRole (USER/ASSISTANT) and content.
+        assert persona.memory is not None, "Persona has no memory configured"
+        history = persona.memory.get_history(sess.session_id)
         assert history, (
             f"Memory empty after pipeline turn for session {sess.session_id}"
         )
-        roles = [role for role, _ in history]
-        assert "user" in roles, (
+        roles = [m.role for m in history]
+        assert MessageRole.USER in roles, (
             f"No USER turn recorded in memory. History: {history}"
         )
-        contents = [utt for _, utt in history]
+        contents = [m.content for m in history]
         assert any("hello" in c.lower() for c in contents), (
             f"User utterance not found in memory. History: {contents}"
         )
