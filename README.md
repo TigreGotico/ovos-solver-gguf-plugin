@@ -1,6 +1,6 @@
 # ovos-gguf-plugin
 
-Unified GGUF wrapper for OpenVoiceOS — chat, summarization, dialog rewriting, translation, language detection, and text embeddings, all backed by quantized GGUF models via `llama-cpp-python`.
+A unified GGUF wrapper for OpenVoiceOS. It covers chat, summarization, dialog rewriting, translation, language detection, and text embeddings, all backed by quantized GGUF models through `llama-cpp-python`.
 
 ## Install
 
@@ -124,11 +124,11 @@ All wrappers share the same config keys:
 | `max_tokens` | `512` | Maximum tokens to generate |
 | `system_prompt` | locale default | Override the system prompt |
 
-See [`docs/configuration.md`](docs/configuration.md) for the full reference including per-wrapper options and GPU build instructions.
+See [`docs/configuration.md`](docs/configuration.md) for the full reference, including per-wrapper options and GPU build instructions.
 
 ## Localized prompts
 
-System prompts and templates ship as `.prompt` resource files under `ovos_gguf_plugin/locale/<lang>/` and are loaded via [ovos-spec-tools](https://github.com/OpenVoiceOS/ovos-spec-tools) (OVOS-INTENT-2 §4.4). Drop translated `.prompt` files under a new `locale/<lang>/` to add a language; English `en-us` ships by default and is the fallback. A `system_prompt` in config overrides the locale file.
+System prompts and templates ship as `.prompt` resource files under `ovos_gguf_plugin/locale/<lang>/`. They load through [OpenVoiceOS/ovos-spec-tools](https://github.com/OpenVoiceOS/ovos-spec-tools) (OVOS-INTENT-2 §4.4). To add a language, drop translated `.prompt` files under a new `locale/<lang>/` folder. English (`en-us`) ships by default and acts as the fallback. A `system_prompt` in config overrides the locale file.
 
 See [`docs/localization.md`](docs/localization.md) for the full guide.
 
@@ -153,9 +153,9 @@ ovos-persona-server --persona my_persona.json
 
 ## Documentation
 
-- [`docs/configuration.md`](docs/configuration.md) — full config reference, GPU build, per-wrapper notes
-- [`docs/localization.md`](docs/localization.md) — `.prompt` system, adding a language
-- [`docs/models.md`](docs/models.md) — recommended models per wrapper (including tiny CI-friendly ones)
+- [`docs/configuration.md`](docs/configuration.md): full config reference, GPU build, per-wrapper notes
+- [`docs/localization.md`](docs/localization.md): the `.prompt` system, adding a language
+- [`docs/models.md`](docs/models.md): recommended models per wrapper, including tiny CI-friendly ones
 
 ## Examples
 
@@ -176,20 +176,26 @@ python -m pytest test/ -v
 
 The test suite contains:
 
-- `test/test_embeddings.py` — hermetic unit tests (mocked llama.cpp, no downloads)
-- `test/test_prompts.py` — hermetic unit tests for localized prompt loading
-- `test/test_e2e.py` — real-model end-to-end tests (downloads tiny GGUFs once, ~70 MB total):
+- `test/test_embeddings.py`: hermetic unit tests (mocked llama.cpp, no downloads)
+- `test/test_prompts.py`: hermetic unit tests for localized prompt loading
+- `test/test_e2e.py`: real-model end-to-end tests (downloads tiny GGUFs once, about 70 MB total):
   - chat: `afrideva/Smol-Llama-101M-Chat-v1-GGUF` q2_k (~45 MB)
   - embeddings: `leliuga/all-MiniLM-L6-v2-GGUF` Q4_K_M (~23 MB)
+
+## Related projects
+
+- [OpenVoiceOS/ovos-spec-tools](https://github.com/OpenVoiceOS/ovos-spec-tools): loads the localized `.prompt` files
+- [OpenVoiceOS/ovos-chromadb-embeddings-plugin](https://github.com/OpenVoiceOS/ovos-chromadb-embeddings-plugin) and [OpenVoiceOS/ovos-qdrant-embeddings-plugin](https://github.com/OpenVoiceOS/ovos-qdrant-embeddings-plugin): vector stores that pair with `GGUFEmbeddings`
+- [OpenVoiceOS/ovos-persona-server](https://github.com/OpenVoiceOS/ovos-persona-server): runs `ovos-persona-server` with a persona config
 
 ## Credits
 
 Originally developed by [TigreGótico](https://tigregotico.pt) for [OpenVoiceOS](https://openvoiceos.org),
 sponsored by VisioLab. Modernized under the [NGI0 Commons Fund](https://nlnet.nl/commonsfund) / [NLnet](https://nlnet.nl).
 
-<img src="https://github.com/user-attachments/assets/809588a2-32a2-406c-98c0-f88bf7753cb4" width="220" alt="VisioLab"/>
+![VisioLab](https://github.com/user-attachments/assets/809588a2-32a2-406c-98c0-f88bf7753cb4)
 
-> This work was sponsored by VisioLab, part of [Royal Dutch Visio](https://visio.org/), is the test, education, and research center in the field of (innovative) assistive technology for blind and visually impaired people and professionals. We explore (new) technological developments such as Voice, VR and AI and make the knowledge and expertise we gain available to everyone.
+> This work was sponsored by VisioLab, part of [Royal Dutch Visio](https://visio.org/). Royal Dutch Visio is a Dutch test, education, and research center for assistive technology for blind and visually impaired people and professionals. It explores technology such as voice, VR, and AI, and shares the resulting knowledge and expertise with everyone.
 
 [![NGI0 Commons Fund](./ngi.png)](https://nlnet.nl/project/OpenVoiceOS)
 

@@ -22,18 +22,21 @@ CMAKE_ARGS="-DGGML_CUDA=on" FORCE_CMAKE=1 pip install llama-cpp-python --force-r
 
 ## Per-wrapper notes
 
-- **chat** (`GGUFChatEngine`, `opm.agents.chat`) — `max_tokens`, `chat_format`,
+- **chat** (`GGUFChatEngine`, `opm.agents.chat`): `max_tokens`, `chat_format`,
   `allow_system_prompts`, `drop_incomplete_sentences`.
-- **summarizer** (`GGUFSummarizer`, `opm.agents.summarizer`) — `prompt_template`
+- **summarizer** (`GGUFSummarizer`, `opm.agents.summarizer`): `prompt_template`
   (an explicit `{content}` template) overrides the localized `summarize_user` prompt.
-- **translate** (`GGUFTextTranslator`, `opm.lang.translate`) — defaults to
+- **translate** (`GGUFTextTranslator`, `opm.lang.translate`): defaults to
   `TheBloke/TowerInstruct-7B-v0.1-GGUF`.
 - **lang detect** (`GGUFTextLangDetector`, `opm.lang.detect`).
-- **dialog transformer** (`GGUFDialogTransformer`, `opm.transformer.dialog`) — the
+- **dialog transformer** (`GGUFDialogTransformer`, `opm.transformer.dialog`): the
   per-call rewrite instruction comes from `context["prompt"]` or `config["rewrite_prompt"]`.
-- **embeddings** (`GGUFEmbeddings`, `opm.embeddings.text`) — `model` may be a
-  `GGUFEmbeddings.DEFAULT_MODELS` name (e.g. `labse`, `all-MiniLM-L6-v2`,
-  `nomic-embed-text-v1.5`); default `labse`. Pairs with an `EmbeddingsDB`
+- **embeddings** (`GGUFEmbeddings`, `opm.embeddings.text`): `model` may be a
+  `GGUFEmbeddings.DEFAULT_MODELS` name (for example `labse`, `all-MiniLM-L6-v2`,
+  `nomic-embed-text-v1.5`). The default is `labse`. It pairs with an `EmbeddingsDB`
   vector store (`ovos-chromadb-embeddings-plugin`, `ovos-qdrant-embeddings-plugin`).
 
 A single loaded model can be shared across wrappers by passing `gguf_engine=`.
+
+---
+[Home](../README.md) · [Localized prompts →](localization.md)
