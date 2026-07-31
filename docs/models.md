@@ -1,26 +1,26 @@
 # Recommended Models
 
-Models are loaded from the Hugging Face Hub by default. The `model` key accepts a hub repo id; `remote_filename` is a glob that selects the quantization variant. Local `.gguf` paths work too.
+Models are loaded from the Hugging Face Hub by default. The `model` key accepts a hub repo id. `remote_filename` is a glob that selects the quantization variant. Local `.gguf` paths work too.
 
 ## Chat / Summarizer / Dialog / Lang-detect / Translate
 
-These wrappers use generative chat models. Any instruction-tuned GGUF model works; smaller ones run faster on CPU.
+These wrappers use generative chat models. Any instruction-tuned GGUF model works. Smaller models run faster on CPU.
 
 ### Tiny (CI / low-RAM, < 200 MB)
 
 | Model | `model` | `remote_filename` | Notes |
 |---|---|---|---|
-| Smol-Llama 101M | `afrideva/Smol-Llama-101M-Chat-v1-GGUF` | `*q2_k.gguf` | ~45 MB; used in CI e2e tests |
+| Smol-Llama 101M | `afrideva/Smol-Llama-101M-Chat-v1-GGUF` | `*q2_k.gguf` | ~45 MB, used in CI e2e tests |
 | Lite-Mistral 150M | `OuteAI/Lite-Mistral-150M-v2-Instruct-GGUF` | `*Q4_K_M.gguf` | ~100 MB |
 
-### Small (1–2 GB, good for Raspberry Pi 5)
+### Small (1 to 2 GB, good for Raspberry Pi 5)
 
 | Model | `model` | `remote_filename` | Notes |
 |---|---|---|---|
 | Qwen2 0.5B Instruct | `Qwen/Qwen2-0.5B-Instruct-GGUF` | `*q8_0.gguf` | multilingual |
 | TinyLlama 1.1B | `TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF` | `*Q4_K_M.gguf` | English |
 
-### Medium (4–8 GB)
+### Medium (4 to 8 GB)
 
 | Model | `model` | `remote_filename` | Notes |
 |---|---|---|---|
@@ -62,7 +62,7 @@ These wrappers use generative chat models. Any instruction-tuned GGUF model work
 | `e5-small-v2` | `ChristianAzinn/e5-small-v2-gguf` | 384 | |
 | `gte-small` | `ChristianAzinn/gte-small-gguf` | 384 | |
 
-### Small (30–100 MB)
+### Small (30 to 100 MB)
 
 | Friendly name | Repo | Dims | Notes |
 |---|---|---|---|
@@ -90,3 +90,6 @@ These wrappers use generative chat models. Any instruction-tuned GGUF model work
 | `gte-Qwen2-1.5B-instruct` | `second-state/gte-Qwen2-1.5B-instruct-GGUF` | 1536 | multilingual |
 
 > These are community-maintained GGUF quantizations. Check the linked repos for licensing details before use in production.
+
+---
+[← Localized prompts](localization.md) · [Home](../README.md)
