@@ -164,19 +164,34 @@ class TestGGUFPersonaMemoryRecorded:
 
         _drive(mc, sess, "hello, who are you?", timeout=90)
 
-        # Short-term memory is kept on the persona's AgentContextManager
-        # (``persona.memory``), keyed by session_id: a list of AgentMessage
-        # with a MessageRole (USER/ASSISTANT) and content.
-        assert persona.memory is not None, "Persona has no memory configured"
-        history = persona.memory.get_history(sess.session_id)
-        assert history, (
-            f"Memory empty after pipeline turn for session {sess.session_id}"
-        )
-        roles = [m.role for m in history]
-        assert MessageRole.USER in roles, (
-            f"No USER turn recorded in memory. History: {history}"
-        )
-        contents = [m.content for m in history]
+        # Short-term memory storage has moved between ovos-persona
+        # prereleases: 0.9.0a15 keeps it on the persona's
+        # AgentContextManager (``persona.memory``, a list of AgentMessage
+        # with a MessageRole + content); 0.9.0a16 reverted to a plain
+        # ``svc.sessions`` dict of (role, utterance) tuples. Accept either
+        # shape so the test doesn't flap with unpinned prerelease churn.
+        memory = getattr(persona, "memory", None)
+        if memory is not None:
+            history = memory.get_history(sess.session_id)
+            assert history, (
+                f"Memory empty after pipeline turn for session {sess.session_id}"
+            )
+            roles = [m.role for m in history]
+            assert MessageRole.USER in roles, (
+                f"No USER turn recorded in memory. History: {history}"
+            )
+            contents = [m.content for m in history]
+        else:
+            history = svc.sessions.get(sess.session_id)
+            assert history, (
+                f"Memory empty after pipeline turn for session {sess.session_id}"
+            )
+            roles = [role for role, _ in history]
+            assert "user" in roles, (
+                f"No USER turn recorded in memory. History: {history}"
+            )
+            contents = [utt for _, utt in history]
+
         assert any("hello" in c.lower() for c in contents), (
             f"User utterance not found in memory. History: {contents}"
         )
