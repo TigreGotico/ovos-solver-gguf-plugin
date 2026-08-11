@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.2a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.2a1) (2026-08-02)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.1a2...1.2.2a1)
+
+**Merged pull requests:**
+
+- fix: use double-brace slot syntax in .prompt resources per OVOS-INTENT-2 §4.4 [\#30](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/30) ([JarbasAl](https://github.com/JarbasAl))
+- test: regression test for transformer default entry-point name \(\#25\) [\#29](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/29) ([JarbasAl](https://github.com/JarbasAl))
+
+## [1.2.1a2](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.1a2) (2026-07-31)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.1a1...1.2.1a2)
+
+**Merged pull requests:**
+
+- docs: rewrite README in Simplified Technical English [\#31](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/31) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.1a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.1a1) (2026-06-20)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.0a4...1.2.1a1)

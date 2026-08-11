@@ -1,6 +1,6 @@
 # Localized prompts
 
-System prompts and user-message templates are **not** hardcoded — they are
+System prompts and user-message templates are **not** hardcoded. They are
 `.prompt` resource files loaded through
 [ovos-spec-tools](https://github.com/OpenVoiceOS/ovos-spec-tools)
 (OVOS-INTENT-2 §4.4), so they can be localized.
@@ -37,10 +37,13 @@ Slots in the shipped prompts:
 
 ## Adding a language
 
-Create `ovos_gguf_plugin/locale/<lang>/` (e.g. `pt-pt/`) and drop translated
-`.prompt` files with the same base names. They are picked up automatically, with
-ovos-spec-tools' smart language fallback. The active language is the assistant's
-configured `lang`; if a prompt is missing for it, the `en-us` prompt is used so
-generation never breaks.
+Create `ovos_gguf_plugin/locale/<lang>/` (for example `pt-pt/`) and drop translated
+`.prompt` files with the same base names. ovos-spec-tools picks them up automatically
+and applies its language fallback. The active language is the assistant's configured
+`lang`. If a prompt is missing for that language, the plugin falls back to the
+`en-us` prompt, so generation never breaks.
 
 A `system_prompt` set in plugin config still overrides the localized one.
+
+---
+[← Configuration](configuration.md) · [Home](../README.md) · [Recommended models →](models.md)
