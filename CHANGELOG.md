@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.3a1) (2026-08-13)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.2a1...1.2.3a1)
+
+**Merged pull requests:**
+
+- fix: accept tools kwarg in GGUFChatEngine.continue\_chat [\#34](https://github.com/OpenVoiceOS/ovos-gguf-plugin/pull/34) ([JarbasAl](https://github.com/JarbasAl))
+
 ## [1.2.2a1](https://github.com/OpenVoiceOS/ovos-gguf-plugin/tree/1.2.2a1) (2026-08-02)
 
 [Full Changelog](https://github.com/OpenVoiceOS/ovos-gguf-plugin/compare/1.2.1a2...1.2.2a1)
