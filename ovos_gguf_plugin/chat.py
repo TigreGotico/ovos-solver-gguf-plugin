@@ -3,7 +3,7 @@ from typing import Dict, Optional, List, Any, Iterable
 from sentence_stream import SentenceBoundaryDetector
 
 from llama_cpp import Llama
-from ovos_plugin_manager.templates.agents import ChatEngine, AgentMessage, MessageRole
+from ovos_plugin_manager.templates.agents import ChatEngine, AgentMessage, MessageRole, ToolsArg
 from ovos_utils.log import LOG
 
 
@@ -81,7 +81,8 @@ class GGUFChatEngine(ChatEngine):
     def continue_chat(self, messages: List[AgentMessage],
                       session_id: str = "default",
                       lang: Optional[str] = None,
-                      units: Optional[str] = None) -> AgentMessage:
+                      units: Optional[str] = None,
+                      tools: "ToolsArg" = None) -> AgentMessage:
         """
         Generate a response message based on the provided chat history.
 
@@ -90,6 +91,14 @@ class GGUFChatEngine(ChatEngine):
             session_id (str): Identifier for the session.
             lang (str, optional): BCP-47 language code.
             units (str, optional): Preferred unit system (e.g., "metric", "imperial").
+            tools: unused. Accepted for contract conformance with
+                ovos_plugin_manager.templates.agents.ChatEngine.continue_chat,
+                whose base signature declares it unconditionally. GGUFChatEngine
+                is not tool-capable (supports_tools stays False); omitting this
+                parameter would raise TypeError whenever a caller (e.g.
+                ovos_persona_server/server_tools.py, or the ovos-agentic-loop
+                ReAct fallback that calls any configured brain with tools=)
+                passes tools= by keyword.
 
         Returns:
             AgentMessage: The generated response message from the assistant.
